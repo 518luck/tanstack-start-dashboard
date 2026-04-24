@@ -20,6 +20,7 @@ const META_THEME_COLORS = {
   dark: "#09090b",
 };
 
+//  定义了一个“在服务端执行的取主题函数”
 const getActiveTheme = createServerFn({ method: "GET" }).handler(async () => {
   const { getCookie } = await import("@tanstack/react-start/server");
   const cookieValue = getCookie("active_theme");
@@ -30,6 +31,7 @@ const getActiveTheme = createServerFn({ method: "GET" }).handler(async () => {
   return DEFAULT_THEME;
 });
 
+// 这段代码就是在注册整个应用最外层根路由，并告诉框架这个根路由怎么取数据、怎么配 head、最后渲染谁。
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
