@@ -67,37 +67,37 @@
   }
 }
 
-/* View Transition Wave Effect */
+/* // 表示切换前的旧页面快照，比如旧主题。 */
 ::view-transition-old(root),
+ /* 表示切换后的新页面快照，比如新主题。 */
 ::view-transition-new(root) {
+  /* animation: none;：取消浏览器默认给新画面加的过渡动画，比如默认淡入淡出。 */
   animation: none;
+  /* mix-blend-mode: normal;：让新画面用正常方式叠加显示，不做颜色混合，避免明暗主题切换时出现颜色异常、闪烁或叠色。 */
   mix-blend-mode: normal;
 }
 
+/* 是让旧页面在下面，新页面在上面。也就是说动画显示的是“新主题逐渐覆盖旧主题”。 */
 ::view-transition-old(root) {
-  /* Ensure the outgoing view (old theme) is beneath */
   z-index: 0;
 }
-
 ::view-transition-new(root) {
-  /* Ensure the incoming view (new theme) is always on top */
   z-index: 1;
 }
 
+/* 意思是：新页面一开始只显示一个半径为 0% 的圆，然后圆逐渐扩大到 150%，最终覆盖整个页面。 */
 @keyframes reveal {
   from {
-    /* Use CSS variables for the origin, defaulting to center if not set */
     clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
     opacity: 0.7;
   }
   to {
-    /* Use CSS variables for the origin, defaulting to center if not set */
     clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
     opacity: 1;
   }
 }
 
+/* 就是把 reveal 动画应用到新页面快照上，持续 0.4s，动画结束后保持最终状态。 */
 ::view-transition-new(root) {
-  /* Apply the reveal animation */
   animation: reveal 0.4s ease-in-out forwards;
 }
