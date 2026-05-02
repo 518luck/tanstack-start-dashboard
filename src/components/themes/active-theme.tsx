@@ -1,13 +1,19 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-import { DEFAULT_THEME } from './theme.config';
+import { DEFAULT_THEME } from "./theme.config";
 
-const COOKIE_NAME = 'active_theme';
+const COOKIE_NAME = "active_theme";
 
 function setThemeCookie(theme: string) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
-  document.cookie = `${COOKIE_NAME}=${theme}; path=/; max-age=31536000; SameSite=Lax; ${window.location.protocol === 'https:' ? 'Secure;' : ''}`;
+  document.cookie = `${COOKIE_NAME}=${theme}; path=/; max-age=31536000; SameSite=Lax; ${window.location.protocol === "https:" ? "Secure;" : ""}`;
 }
 
 type ThemeContextType = {
@@ -19,7 +25,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ActiveThemeProvider({
   children,
-  initialTheme
+  initialTheme,
 }: {
   children: ReactNode;
   initialTheme?: string;
@@ -29,23 +35,31 @@ export function ActiveThemeProvider({
 
   useEffect(() => {
     // Only update if theme has changed
-    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const currentTheme = document.documentElement.getAttribute("data-theme");
     if (currentTheme !== activeTheme) {
       setThemeCookie(activeTheme);
 
       // Remove existing data-theme attribute
-      document.documentElement.removeAttribute('data-theme');
+      // remove attribut  属性
+      document.documentElement.removeAttribute("data-theme");
 
       // Remove any theme classes from body (cleanup)
+      // classlist 是dom元素上的一个属性,用来操作这个元素的 class
+      // 常见
+      //document.body.classList    表示的就是这个元素身上的 class 集合。
+      //document.body.classList.add("dark")  添加 class
+      //document.body.classList.remove("dark")  删除 class
+      //document.body.classList.contains("dark")  判断有没有某个 class
+      //document.body.classList.toggle("dark")  切换 class
       Array.from(document.body.classList)
-        .filter((className) => className.startsWith('theme-'))
+        .filter((className) => className.startsWith("theme-"))
         .forEach((className) => {
           document.body.classList.remove(className);
         });
 
       // Set data-theme on html element
       if (activeTheme) {
-        document.documentElement.setAttribute('data-theme', activeTheme);
+        document.documentElement.setAttribute("data-theme", activeTheme);
       }
     } else {
       // Still update cookie in case it's missing
@@ -63,7 +77,9 @@ export function ActiveThemeProvider({
 export function useThemeConfig() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error('useThemeConfig must be used within an ActiveThemeProvider');
+    throw new Error(
+      "useThemeConfig must be used within an ActiveThemeProvider",
+    );
   }
   return context;
 }
