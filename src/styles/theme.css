@@ -1,14 +1,14 @@
-/* Import individual theme files */
-@import './themes/claude.css';
-@import './themes/neobrutualism.css';
-@import './themes/supabase.css';
-@import './themes/vercel.css';
-@import './themes/mono.css';
-@import './themes/notebook.css';
-@import './themes/light-green.css';
-@import './themes/zen.css';
-@import './themes/astro-vista.css';
-@import './themes/whatsapp.css';
+/* 引入各个单独的主题文件 */
+@import "./themes/claude.css";
+@import "./themes/neobrutualism.css";
+@import "./themes/supabase.css";
+@import "./themes/vercel.css";
+@import "./themes/mono.css";
+@import "./themes/notebook.css";
+@import "./themes/light-green.css";
+@import "./themes/zen.css";
+@import "./themes/astro-vista.css";
+@import "./themes/whatsapp.css";
 
 body {
   @apply overscroll-none;
@@ -18,16 +18,18 @@ body {
   --header-height: calc(var(--spacing, 0.25rem) * 12 + 1px);
 }
 
-/* Apply theme fonts to body for all themes */
-/* This ensures theme-specific fonts override Next.js font variables */
-/* Font variables are defined on [data-theme] (html element) */
-/* We need to override Next.js font variables on body to use html's values */
-/* Using initial removes the property, allowing parent (html) values to cascade */
+/* 为所有主题将主题字体应用到 body 上 */
+/* 这样可以确保主题专属字体覆盖 Next.js 的字体变量 */
+/* 字体变量定义在 [data-theme]（html 元素）上 */
+/* 我们需要在 body 上覆盖 Next.js 的字体变量，以使用 html 上的值 */
+/* 使用 initial 会移除该属性，从而允许父级（html）的值向下级联 */
 [data-theme] body {
-  /* Remove Next.js font variables to allow theme variables from html to cascade */
-  --font-sans: initial;
-  --font-mono: initial;
-  --font-serif: initial;
-  /* Apply font-family - will now resolve from html's [data-theme] variables */
+  /* 移除 Next.js 的字体变量，让 html 上的主题变量可以向下级联 */
+  /*initial 是 CSS 的一个关键字，意思是：把这个属性恢复成初始值。*/
+  --font-sans: initial; /*表示 无衬线字体。*/
+  --font-mono: initial; /*表示 等宽字体。*/
+  --font-serif: initial; /*表示 衬线字体。*/
+  /* 应用 font-family，此时会从 html 的 [data-theme] 变量中解析 */
+  /* 这是 CSS 里设置字体的属性。 */
   font-family: var(--font-sans);
 }
